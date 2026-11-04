@@ -40,7 +40,7 @@ export default function TabTwoScreen() {
       <ThemedView style={styles.container}>
         <ThemedView style={styles.titleContainer}>
           <ThemedText type="subtitle">Explore</ThemedText>
-          <ThemedText style={styles.centerText} themeColor="textSecondary">
+          {/* <ThemedText style={styles.centerText} themeColor="textSecondary">
             This starter app includes example{'\n'}code to help you get started.
           </ThemedText>
 
@@ -55,10 +55,10 @@ export default function TabTwoScreen() {
                 />
               </ThemedView>
             </Pressable>
-          </ExternalLink>
+          </ExternalLink> */}
         </ThemedView>
 
-        <ThemedView style={styles.sectionsWrapper}>
+        {/* <ThemedView style={styles.sectionsWrapper}>
           <Collapsible title="File-based routing">
             <ThemedText type="small">
               This app has two screens: <ThemedText type="code">src/app/index.tsx</ThemedText> and{' '}
@@ -118,7 +118,7 @@ export default function TabTwoScreen() {
               animate opening this hint.
             </ThemedText>
           </Collapsible>
-        </ThemedView>
+        </ThemedView> */}
         {Platform.OS === 'web' && <WebBadge />}
       </ThemedView>
     </ScrollView>
