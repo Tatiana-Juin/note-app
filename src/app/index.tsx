@@ -64,6 +64,17 @@ export default function HomeScreen() {
     setTaches(nouvellesTaches)
     setName('')
   }
+
+  // FONCTION POUR SUPPRIMER UNE NOTE PAR RAPPORT A L'INDEX 
+  async function supprimerNote(indexASupprimer:number){
+    const nouvellesTaches = taches.filter(
+      (_,index) =>index !== indexASupprimer
+    );
+    const enregistre = await sauvegarder(CLE_TACHES,nouvellesTaches)
+
+    if(!enregistre) return;
+    setTaches(nouvellesTaches);
+  }
   return (
     <ThemedView style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
@@ -103,6 +114,15 @@ export default function HomeScreen() {
                 style={[styles.note, { backgroundColor: theme.backgroundElement, borderColor: theme.textSecondary }]}
               >
                 <ThemedText style={{ color: theme.text }}>{tache}</ThemedText>
+                {/* POUR SUPPRIMER UNE NOTE TACHE  */}
+                <Pressable
+                  onPress={()=>supprimerNote(index)}
+                  style={[styles.button, styles.primary]}
+                  accessibilityRole="button"
+                  accessibilityLabel="Supprimer une note "
+                >
+                  <ThemedText style={styles.text}>Supprimer</ThemedText>
+                </Pressable>
               </ThemedView>
             ))
           )  
