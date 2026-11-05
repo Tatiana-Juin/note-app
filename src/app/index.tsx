@@ -1,5 +1,5 @@
 import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
+import { Alert, Platform, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TextInput,Pressable,Text } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
@@ -72,9 +72,40 @@ export default function HomeScreen() {
     );
     const enregistre = await sauvegarder(CLE_TACHES,nouvellesTaches)
 
-    if(!enregistre) return;
+    if(!enregistre) {
+      console.log('La sauvegarde après suppression a échoué');
+      return;
+    }
     setTaches(nouvellesTaches);
+    // const notesStockees = await lire<string[]>(CLE_TACHES,[])
+    // console.log('Notes actuellement enregistrées :', notesStockees);
   }
+  // POUR DEMANDER LA CONFIRMATION 
+  function demanderConfirmation(index: number) {
+    // message a afficher 
+    const message = `Voulez-vous vraiment supprimer « ${taches[index]} » ?`;
+    // si c'est sur pc on utilise globalThis pour supprimer 
+    if (Platform.OS === 'web') {
+      if (globalThis.confirm(message)) {
+        // recupere pas le resultat
+        void supprimerNote(index);
+      }
+      return;
+    }
+    // Pour afficher une boite de dialogue Alert.alert sur telephone 
+    Alert.alert('Supprimer la note ?', message, [
+      { text: 'Annuler', style: 'cancel' },
+      {
+        text: 'Supprimer',
+        style: 'destructive',
+        // void => on veux pas que ca retourne quelque chose 
+        onPress: () => {
+          void supprimerNote(index);
+        },
+      },
+    ]);
+  }
+
   return (
     <ThemedView style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
@@ -116,7 +147,7 @@ export default function HomeScreen() {
                 <ThemedText style={{ color: theme.text }}>{tache}</ThemedText>
                 {/* POUR SUPPRIMER UNE NOTE TACHE  */}
                 <Pressable
-                  onPress={()=>supprimerNote(index)}
+                  onPress={() => demanderConfirmation(index)}
                   style={[styles.button, styles.primary]}
                   accessibilityRole="button"
                   accessibilityLabel="Supprimer une note "
