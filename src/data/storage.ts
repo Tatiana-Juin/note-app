@@ -24,14 +24,5 @@ export const lire = async <T>(
   }
 };
 
-// Pour supprimer 
-export const supprimer= async (cle:string) =>{
-    try{
-        await AsyncStorage.removeItem(cle);
-        return true;
-    }catch(error){
-        console.log(`erreur de suppression`,error);
-        
-    }
-}
+
 
